@@ -16,11 +16,9 @@ function calcShipping(sum, min, shipping) {
     // если productsSum больше 0 и меньше freeShippingMinSum,
     // то shippingSum присвоить значение shippingPrice
     let shippingSum = shipping;
-    if (productsSum == 0) {
+    if ((productsSum == 0) || (productsSum >= freeShippingMinSum)) {
         shippingSum = 0;
-    } else if (productsSum >= freeShippingMinSum) {
-        shippingSum = 0;
-    } else if (0 < productsSum < freeShippingMinSum) {
+    } else /*if ((0 < productsSum) && (productsSum < freeShippingMinSum)) */ {
         shippingSum = shippingPrice;
     }
 
@@ -42,12 +40,7 @@ function calcDiscount(sum, min, discount) {
     // если productsSum больше или равно discountMinSum,
     // то присвойте discountSum значение discountPart процентов от productsSum,
     // иначе присвойте discountSum значение 0
-    let discountSum;
-    if (productsSum >= discountMinSum) {
-        discountSum = (productsSum / 100) * discountPart;
-    } else {
-        discountSum = 0;
-    }
+    let discountSum = productsSum >= discountMinSum ? ((productsSum / 100) * discountPart) : 0;
     // Конец решения задания №2.2.
 
     return discountSum;
@@ -66,24 +59,22 @@ function calcInvoice({ sum, discountMinSum, discountPart, shippingFreeMinSum, sh
     totalSum = totalSum - discountSum;
 
     let shippingSum = calcShipping(totalSum, shippingFreeMinSum, shippingPrice); // не изменяйте эту строку!!!
-
     // прибавьте к totalSum значение shippingSum
     totalSum = totalSum + shippingSum;
     // создайте переменную freeShipping
     // запишите без использования if или любых других условий:
     // если shippingSum равно нулю, то freeShipping должна быть равна true, иначе freeShipping должна быть равна false
-    let freeShipping;
-    // shippingSum = 0 
     /*Красиво, но не наглядно. С if вообще было бы человеческим языком. Ну и задача с башней и барометром https://my-mice.livejournal.com/199385.html */
-    // freeShipping=!shippingSum;   
+    let freeShipping = (shippingSum == 0);
+    // let freeShipping = !shippingSum;   
 
-    switch (shippingSum) {
-        case 0:
-            freeShipping = true;
-            break;
-        default:
-            freeShipping = false;
-    }
+    /* switch (shippingSum) {
+         case 0:
+             freeShipping = true;
+             break;
+         default:
+             freeShipping = false;
+     }*/
     // Конец решения задачи №2.3.
 
     return { discount: discountSum, freeShipping, shipping: shippingSum, total: totalSum };
