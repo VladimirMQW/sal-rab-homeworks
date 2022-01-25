@@ -74,6 +74,9 @@ function calcInvoice({ sum, discountMinSum, discountPart, shippingFreeMinSum, sh
     // если shippingSum равно нулю, то freeShipping должна быть равна true, иначе freeShipping должна быть равна false
     let freeShipping;
     // shippingSum = 0 
+    /*Красиво, но не наглядно. С if вообще было бы человеческим языком. Ну и задача с башней и барометром https://my-mice.livejournal.com/199385.html */
+    // freeShipping=!shippingSum;   
+
     switch (shippingSum) {
         case 0:
             freeShipping = true;
