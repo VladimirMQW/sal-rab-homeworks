@@ -34,18 +34,29 @@
 // }
 
 function sendRequest(name, phone, address, goods, sum) {
+//---------- Почему не убирается активность с кнопки Оформить заказ.
+    if (sum <= 0) {
+       alert("Вы ничего не выбрали!");
+    }
+//----------
     let data = {};
-
     data.client = name + " " + phone;
     data.order = {};
+//    console.log(address);
     data.order.address = `ул. ${address.street}, дом ${address.house}, ${address.entrance} подъезд, ${address.floor} этаж, кв ${address.flat}`;
     data.order.sum = sum;
 
-    let countOfGoods = goods.length;
-    for (let i = 0; i < countOfGoods; i += 1) {
-        goods[i] = { "title": goods[i].title, "count": goods[i].count }
-    }
-    data.goods = goods;
+/*    data.order = {};
+    data = {"client": `${name} ${phone}`, "order": {"address": `ул. ${address.street}, дом ${address.house}, ${address.entrance} подъезд, ${address.floor} этаж, кв ${address.flat}`, "sum": sum}};
+*/
+    let goodsTmp =[];
+//    let countOfGoods = goods.length;
+    for (let i = 0; i < goods.length; i++) {
+        goodsTmp[i] = { "title": goods[i].title, "count": goods[i].count }
+    }               
+//    console.log(goods);
+    data.goods = goodsTmp;
+
     let jsonData = JSON.stringify({ "data": data });
     //console.log(typeof jsonData);
     return jsonData;
